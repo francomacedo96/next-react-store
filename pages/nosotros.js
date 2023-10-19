@@ -12,7 +12,7 @@ export default function Nosotros() {
         >
 
             <main className='contenedor'>
-                <h2 className='heading'>Nosotros</h2>
+                <h1 className='heading'>Nosotros</h1>
 
                 <div className={styles.contenido}>
                     <Image
