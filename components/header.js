@@ -12,11 +12,12 @@ export default function Header() {
     <header className={styles.header}>
 
       <div className={`contenedor ${styles.barra}`}>
-        <Image src="/img/logo.svg" alt="logo" width={300} height={400} />
-
+        <Link href="/">
+          <Image src="/img/logo.svg" alt="logo" width={300} height={300} />
+        </Link>
         <nav className={styles.navegacion}>
           <Link href="/" className={router.pathname === "/" ? styles.active : ""} >
-              Inicio
+            Inicio
           </Link>
           <Link href="/nosotros" className={router.pathname === "/nosotros" ? styles.active : ""} >
             Nosotros
