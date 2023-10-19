@@ -1,7 +1,11 @@
 import Layout from '@/components/layout'
-import ListadoGuitarras from '@/components/listado-guitarras'
+import Guitarra from '@/components/guitarra'
+import styles from "../styles/grid.module.css"
 
-export default function Tienda() {
+export default function Tienda({ guitarras }) {
+
+    console.log(guitarras)
+
     return (
 
 
@@ -15,9 +19,15 @@ export default function Tienda() {
 
                 <h1 className='heading'>Nuestras Guitarras</h1>
 
-                <ListadoGuitarras
-                
-                />
+                <div className={styles.grid}>                
+                    {guitarras.map(guitarra => (
+                    <Guitarra
+                        key={guitarra.id}
+                        guitarra={guitarra.attributes}
+                    />
+                ))}
+                </div>
+
             </main>
 
 
@@ -27,14 +37,13 @@ export default function Tienda() {
     )
 }
 
-export async function getStaticProps() {
-    const respuesta = await fetch(`http://127.0.0.1:1337/api/guitarras?populate=imagen`) 
-    const resultado = await respuesta.json()
-    console.log(resultado)
+export async function getServerSideProps() {
+    const respuesta = await fetch(`${process.env.API_URL}/guitarras?populate=imagen`)
+    const { data: guitarras } = await respuesta.json()
 
     return {
         props: {
-
+            guitarras
         }
     }
 }
