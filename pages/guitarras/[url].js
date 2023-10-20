@@ -63,4 +63,5 @@ export async function getStaticProps({params: {url}}) {
           guitarra
         }
     }
-}*/
+}
+*/
