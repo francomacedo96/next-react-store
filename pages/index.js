@@ -2,11 +2,13 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import Layout from '@/components/layout'
 import Guitarra from '@/components/guitarra'
+import Post from '@/components/post'
 import styles from "../styles/grid.module.css"
+import Curso from '@/components/curso'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({ guitarras, posts }) {
+export default function Home({ guitarras, posts, curso }) {
 
   return (
     <>
@@ -16,18 +18,32 @@ export default function Home({ guitarras, posts }) {
       >
         <main className='contenedor'>
           <h1 className='heading'>Nuestra colección</h1>
-          <div className={styles.grid}>                
-                    {guitarras.map(guitarra => (
-                    <Guitarra
-                        key={guitarra.id}
-                        guitarra={guitarra.attributes}
-                    />
-                ))}
-                </div>
+          <div className={styles.grid}>
+            {guitarras.map(guitarra => (
+              <Guitarra
+                key={guitarra.id}
+                guitarra={guitarra.attributes}
+              />
+            ))}
+          </div>
         </main>
 
-        <section>
+        <Curso
+          curso={curso}
+        />
 
+        <section>
+          <h2 className="heading">Blog</h2>
+          <div className={styles.grid}>
+                    {posts?.map(post => (
+                        <Post
+                            key={post.id}
+                            post={post.attributes}
+                        >
+
+                        </Post>
+                    ))}
+                </div>
         </section>
 
       </Layout>
@@ -39,21 +55,26 @@ export default function Home({ guitarras, posts }) {
 export async function getStaticProps() {
   const urlGuitarras = `${process.env.API_URL}/guitarras?populate=imagen`
   const urlPosts = `${process.env.API_URL}/posts?populate=imagen`
+  const urlCurso = `${process.env.API_URL}/curso?populate=imagen`
 
-  const [resGuitarras, resPosts] = await Promise.all([
+  const [resGuitarras, resPosts, resCurso] = await Promise.all([
     fetch(urlGuitarras),
-    fetch(urlPosts)
+    fetch(urlPosts), 
+    fetch(urlCurso), 
+
   ])
 
-  const [{ data: guitarras }, { data: posts }] = await Promise.all([
+  const [{ data: guitarras }, { data: posts }, {data: curso}] = await Promise.all([
     resGuitarras.json(),
-    resPosts.json()
+    resPosts.json(),
+    resCurso.json()
   ])
 
   return {
     props: {
       guitarras,
-      posts
+      posts,
+      curso
     }
   }
 
